@@ -1,14 +1,42 @@
 import { useState } from "react";
 
 export default function Game(){
-  const [xIsNext, setXIsNext] = useState(true);
+  // const [xIsNext, setXIsNext] = useState(true);
   const [history, setHistory] = useState([Array(9).fill(null)]);  //an array of 9-item arrays initialized with a single array of 9 nulls
-  const currentSquares = history[history.length - 1];
+  const [currentMove, setCurrentMove] = useState(0);
+  // const currentSquares = history[history.length - 1];
+  const currentSquares = history[currentMove];
+  const xIsNext = currentMove % 2 === 0;
+
 
   function handlePlay(nextSquares){
-    setHistory([...history, nextSquares]);
-    setXIsNext(!xIsNext);
+    // setHistory([...history, nextSquares]);
+    const nextHistory = [...history.slice(0, currentMove+1), nextSquares]
+    setHistory(nextHistory);
+    setCurrentMove(nextHistory.length-1);
+    // setXIsNext(!xIsNext);
   }
+
+  function jumpTo(nextMove){
+    setCurrentMove(nextMove);
+    // setXIsNext(nextMove % 2 === 0);
+  }
+
+  const moves = history.map((squares,move)=>{
+    let description;
+
+    if(move>0){
+      description='Go to move #' + move;
+    } else{
+      description='Go to game start';
+    }
+
+    return(
+      <li key={move}>
+        <button onClick={()=>jumpTo(move)}>{description}</button>
+      </li>
+    );
+  });
 
   return(
     <div className="game">
@@ -16,14 +44,13 @@ export default function Game(){
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{/* TODO */}</ol>
+        <ol>{moves}</ol>
       </div>
     </div>
   );
 }
 
-// export default function Board() {
-// function Board() {
+
 function Board({xIsNext, squares, onPlay}) {
   // const [squares, setSquares] = useState(Array(9).fill(null));
   // const [xIsNext, setXIsNext] = useState(true);
@@ -102,7 +129,7 @@ function Board({xIsNext, squares, onPlay}) {
   );
 }
 
-// function Square({value}){
+
 function Square({value, onSquareClick}){
   // const [value, setValue] = useState(null);
 
