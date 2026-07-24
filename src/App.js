@@ -24,6 +24,7 @@ export default function Game(){
 
   const moves = history.map((squares,move)=>{
     let description;
+    let content;
 
     if(move>0){
       description='Go to move #' + move;
@@ -32,18 +33,26 @@ export default function Game(){
     }
 
     if(move === currentMove){
-      return(
-        <li key={move}>
-          You are at {move===0 ? 'start' : `move #${move}`}
-        </li>
-      );
+      // return(
+      //   <li key={move}>
+      //     <span>You are at {move===0 ? 'start' : `move #${move}`}</span>
+      //   </li>
+      // );
+      content = <span>You are at {move===0 ? 'start' : `move #${move}`}</span>;
     } else{
-        return(
-          <li key={move}>
-            <button onClick={()=>jumpTo(move)}>{description}</button>
-          </li>
-        );
+        // return(
+        //   <li key={move}>
+        //     <button onClick={()=>jumpTo(move)}>{description}</button>
+        //   </li>
+        // );
+        content = <button onClick={()=>jumpTo(move)}>{description}</button>;
     }
+
+    return(
+      <li key={move}>
+        {content}
+      </li>
+    );
     // return(
     //   <li key={move}>
     //     <button onClick={()=>jumpTo(move)}>{description}</button>
@@ -84,6 +93,28 @@ function Board({xIsNext, squares, onPlay}) {
     // setXIsNext(!xIsNext);
   }
 
+
+  function createRows(squares){
+    const elements = [];
+
+    for(let i = 0; i < squares.length; i+=3){
+      elements.push(<div key={i} className="board-row">{createSquares(squares, i, 3)}</div>);
+    }
+    // return <div className="board-row">{createSquares(n)}</div>
+    return elements;
+  }
+
+  function createSquares(squares, start, qty){
+    const elements = [];
+
+    for(let i = start; i < (start+qty); i++){
+      elements.push(<Square key={i} value={squares[i]} onSquareClick={()=>handleClick(i)}></Square>);
+    }
+
+    return elements;
+  }
+
+
   const winner = calculateWinner(squares);
   let status;
 
@@ -96,48 +127,23 @@ function Board({xIsNext, squares, onPlay}) {
   return(
     <>
       <div className="status">{status}</div>
-      <div className="board-row">
-        {/* <button className="square">1</button>
-        <button className="square">2</button>
-        <button className="square">3</button> */}
-        {/* <Square value="1"/>
-        <Square value="2"/>
-        <Square value="3"/> */}
-        {/* <Square />
-        <Square />
-        <Square /> */}
+      {/* <div className="board-row">
         <Square value={squares[0]} onSquareClick={()=>handleClick(0)}/>
         <Square value={squares[1]} onSquareClick={()=>handleClick(1)}/>
         <Square value={squares[2]} onSquareClick={()=>handleClick(2)}/>
       </div>
       <div className="board-row">
-        {/* <button className="square">4</button>
-        <button className="square">5</button>
-        <button className="square">6</button> */}
-        {/* <Square value="4"/>
-        <Square value="5"/>
-        <Square value="6"/> */}
-        {/* <Square />
-        <Square />
-        <Square /> */}
         <Square value={squares[3]} onSquareClick={()=>handleClick(3)}/>
         <Square value={squares[4]} onSquareClick={()=>handleClick(4)}/>
         <Square value={squares[5]} onSquareClick={()=>handleClick(5)}/>
       </div>
       <div className="board-row">
-        {/* <button className="square">7</button>
-        <button className="square">8</button>
-        <button className="square">9</button> */}
-        {/* <Square value="7"/>
-        <Square value="8"/>
-        <Square value="9"/> */}
-        {/* <Square />
-        <Square />
-        <Square /> */}
         <Square value={squares[6]} onSquareClick={()=>handleClick(6)}/>
         <Square value={squares[7]} onSquareClick={()=>handleClick(7)}/>
         <Square value={squares[8]} onSquareClick={()=>handleClick(8)}/>
-      </div>
+      </div> */}
+
+      {createRows(squares)}
     </>
   );
 }
