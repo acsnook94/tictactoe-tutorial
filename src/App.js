@@ -5,6 +5,7 @@ export default function Game(){
   const [history, setHistory] = useState([Array(9).fill(null)]);  //an array of 9-item arrays initialized with a single array of 9 nulls
   const [currentMove, setCurrentMove] = useState(0);
   // const currentSquares = history[history.length - 1];
+  const [isSortedAsc, setIsSortedAsc] = useState(true);
   const currentSquares = history[currentMove];
   const xIsNext = currentMove % 2 === 0;
 
@@ -20,6 +21,13 @@ export default function Game(){
   function jumpTo(nextMove){
     setCurrentMove(nextMove);
     // setXIsNext(nextMove % 2 === 0);
+  }
+
+  function toggleSortOrder(){
+    console.log(`in toggleSortOrder()`);
+    // console.log(`isSortedAsc before: ${isSortedAsc}`);
+    setIsSortedAsc(!isSortedAsc);
+    // console.log(`isSortedAsc after: ${isSortedAsc}`);
   }
 
   const moves = history.map((squares,move)=>{
@@ -66,8 +74,12 @@ export default function Game(){
         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
       </div>
       <div className="game-info">
-        <ol>{moves}</ol>
+        <ol>{isSortedAsc ? moves : moves.reverse()}</ol>
       </div>
+      <br/>
+
+      <button style={{marginLeft : '15em'}} onClick={toggleSortOrder}>Sort</button>
+      {/* <button>Sort</button> */}
     </div>
   );
 }
