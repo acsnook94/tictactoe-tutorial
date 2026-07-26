@@ -78,7 +78,9 @@ export default function Game(){
       </div>
       <br/>
 
-      <button style={{marginLeft : '15em'}} onClick={toggleSortOrder}>Sort</button>
+      <button style={{marginLeft : '15em'}} onClick={toggleSortOrder}>
+        Sort {isSortedAsc ? '(desc)' : '(asc)'}
+      </button>
       {/* <ToggleBtn onToggleClick={toggleSortOrder}/> */}
     </div>
   );
@@ -154,7 +156,6 @@ function Board({xIsNext, squares, onPlay}) {
         <Square value={squares[7]} onSquareClick={()=>handleClick(7)}/>
         <Square value={squares[8]} onSquareClick={()=>handleClick(8)}/>
       </div> */}
-
       {createRows(squares)}
     </>
   );
