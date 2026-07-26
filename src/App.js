@@ -78,8 +78,8 @@ export default function Game(){
       </div>
       <br/>
 
-      {/* <button style={{marginLeft : '15em'}} onClick={toggleSortOrder}>Sort</button> */}
-      <ToggleBtn onToggleClick={toggleSortOrder}/>
+      <button style={{marginLeft : '15em'}} onClick={toggleSortOrder}>Sort</button>
+      {/* <ToggleBtn onToggleClick={toggleSortOrder}/> */}
     </div>
   );
 }
@@ -186,9 +186,9 @@ function Square({value, onSquareClick}){
 }
 
 
-function ToggleBtn({onToggleClick}){
-  return <button style={{marginLeft : '15em'}} onClick={onToggleClick}>Sort</button>
-}
+// function ToggleBtn({onToggleClick}){
+//   return <button style={{marginLeft : '15em'}} onClick={onToggleClick}>Sort</button>
+// }
 
 
 function calculateWinner(squares){
